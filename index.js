@@ -40,20 +40,10 @@ app.get('/oauth/callback', async (req, res) => {
       expiresAt: String(Date.now() + token.expires_in * 1000),
     };
 
-    await db.user.upsert({
-      where: {
-        accountId: String(me.id),
-      },
-      update: credentials,
-      create: {
-        accountId: String(me.id),
-        name: me.name,
-        ...credentials,
-      },
-    });
+
 
     // Redirect the user to the UI endpoint after successful authorization
-    res.redirect('YOUR_UI_ENDPOINT'); // Replace 'YOUR_UI_ENDPOINT' with the actual URL
+    res.status(200).json('Successfully authorized'); // Replace 'YOUR_UI_ENDPOINT' with the actual URL
   } catch (error) {
     console.log('OAuth callback error:', error);
     res.status(500).json(error);
